@@ -1,0 +1,15 @@
+/vendor
+/phpdoc.xml
+/doc/phpdoc
+/config/core.module.php
+
+# IDE / Editors
+nbproject
+.idea
+.project
+.settings
+*.sublime-workspace
+*.sublime-project
+
+# OS
+.DS_Store
