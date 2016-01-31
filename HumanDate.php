@@ -2,30 +2,52 @@
 
 namespace rafamalaga86;
 
+use \DateTime;
+
 class HumanDate
 {
-    public $date;
+    protected $date;
 
     public function __construct($dateString)
     {
-        $this->date = date("Y-m-d", strtotime($dateString));
+        $this->date = new DateTime($dateString);
     }
 
-    public function days3Spanish(DateTime $date)
+    public function landingDateSpanish($days)
     {
-        return $this->spanishLongDate($date);
+        $roundedDate = $this->roundUpDate($this->date, $days);
+        return $this->spanishLongDate($roundedDate, ',', "de", "de");
     }
 
-    public function spanishLongDate(DateTime $date)
+    protected function roundUpDate(DateTime $date, $daysToRound)
     {
+        $day = $date->format('d');
+        $resultDay = $daysToRound - ($day % $daysToRound);
+
+        var_dump($day);
+        var_dump($resultDay);
+
+        if ($resultDay === 0) {
+            $date->modify("+$daysToRound day");
+        } else {
+            $date->modify("+$resultDay day");
+        }
+
+        return $date;
+    }
+
+    protected function spanishLongDate(DateTime $date, $comma, $of1, $of2)
+    {
+        $dayOfWeek = $this->getTheDayOfWeekInSpanish($date);
         $monthName = $this->getTheMonthInSpanish($date);
-        $day = date('d', strtotime($date));
-        $year = date('y', strtotime($date));
-        $wholeDate = "el $day de $monthName de $year";
+        $day = $date->format('j'); // Days without Zero
+        $year = $date->format('Y');
+        $wholeDate = "$dayOfWeek$comma $day $of1 $monthName $of2 $year";
+
         return $wholeDate;
     }
 
-    public function getTheMonthInSpanish(DateTime $date)
+    protected function getTheMonthInSpanish(DateTime $date)
     {
         $month = $date->format('m');
 
@@ -93,12 +115,49 @@ class HumanDate
         return $string;
     }
 
-    public function roundUpDate($date, $daysToRound)
+    protected function getTheDayOfWeekInSpanish(DateTime $date)
     {
-        $day = date('d', strtotime($date));
-        $mod = $day % $daysToRound;
-        return $roundedDate;
+        $dayOfWeek = $date->format('D');
+
+        switch ($dayOfWeek) {
+
+            case 'Mon':
+                $string = "lunes";
+                break;
+
+            case 'Tue':
+                $string = "martes";
+                break;
+
+            case 'Wed':
+                $string = "miércoles";
+                break;
+
+            case 'Thu':
+                $string = "jueves";
+                break;
+
+            case 'Fri':
+                $string = "viernes";
+                break;
+
+            case 'Sat':
+                $string = "sábado";
+                break;
+
+            case 'Sun':
+                $string = "domingo";
+                break;
+
+            default:
+                $string = "lunes";
+                break;
+        }
+
+        return $string;
     }
+
+    // Getters
 
     public function getDate()
     {
@@ -106,8 +165,9 @@ class HumanDate
     }
 }
 
-$humanDate = new HumanDate('1991-01-01');
-echo $humanDate->getDate();
+$humanDate = new HumanDate($argv[1]);
+
+echo $humanDate->landingDateSpanish(3);
 
 // echo $ej ;
 // echo $date->days3Spanish($ej);
