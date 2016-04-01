@@ -1,6 +1,6 @@
 <?php
 
-namespace rafamalaga86;
+namespace Rafamalaga86\LandingHelper;
 
 use \DateTime;
 
@@ -8,7 +8,7 @@ class HumanDate
 {
     protected $date;
 
-    public function __construct($dateString)
+    public function __construct($dateString = null)
     {
         $this->date = new DateTime($dateString);
     }
@@ -23,9 +23,6 @@ class HumanDate
     {
         $day = $date->format('d');
         $resultDay = $daysToRound - ($day % $daysToRound);
-
-        var_dump($day);
-        var_dump($resultDay);
 
         if ($resultDay === 0) {
             $date->modify("+$daysToRound day");
@@ -165,8 +162,14 @@ class HumanDate
     }
 }
 
-$humanDate = new HumanDate($argv[1]);
+if ($argv[1]) {
+    $date = $argv[1];
+} else {
+    $date = null;
+}
 
+
+$humanDate = new HumanDate($date);
 echo $humanDate->landingDateSpanish(3);
 
 // echo $ej ;
