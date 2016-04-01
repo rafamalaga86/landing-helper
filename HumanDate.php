@@ -6,31 +6,7 @@ use \DateTime;
 
 class HumanDate
 {
-    /**
-     * @var null|Datetime
-     */
-    protected $date;
-
-    public function __construct($dateString = null)
-    {
-        $this->date = new DateTime($dateString);
-    }
-
-    protected function roundUpDate(DateTime $date, $daysToRound)
-    {
-        $day = $date->format('d');
-        $resultDay = $daysToRound - ($day % $daysToRound);
-
-        if ($resultDay === 0) {
-            $date->modify("+$daysToRound day");
-        } else {
-            $date->modify("+$resultDay day");
-        }
-
-        return $date;
-    }
-
-    protected function getTheMonthInSpanish(DateTime $date)
+    protected static function getTheMonthInSpanish(DateTime $date)
     {
         $month = $date->format('m');
 
@@ -98,7 +74,7 @@ class HumanDate
         return $string;
     }
 
-    protected function getTheDayOfWeekInSpanish(DateTime $date)
+    protected static function getTheDayOfWeekInSpanish(DateTime $date)
     {
         $dayOfWeek = $date->format('D');
 
@@ -140,28 +116,25 @@ class HumanDate
         return $string;
     }
 
-    public function landingDateSpanish()
+    /**
+     * Format the date into a human way of it
+     * @param DateTime|string|null $inputDate
+     * @param string First separator
+     * @param string Second separator
+     * @param string Third separator
+     */
+    public static function spanishLongDate($date = null, $comma = ',', $of1 = 'de', $of2 = 'de')
     {
-        // $roundedDate = $this->roundUpDate($this->date, $days);
-        return $this->spanishLongDate(',', 'de', 'de');
-    }
+        if (is_string($date) || $date === null) {
+            $date = new DateTime($date);
+        }
 
-    public function spanishLongDate($comma = ',', $of1 = 'de', $of2 = 'de')
-    {
-        $date = $this->date;
-        $dayOfWeek = $this->getTheDayOfWeekInSpanish($date);
-        $monthName = $this->getTheMonthInSpanish($date);
+        $dayOfWeek = self::getTheDayOfWeekInSpanish($date);
+        $monthName = self::getTheMonthInSpanish($date);
         $day = $date->format('j'); // Days without Zero
         $year = $date->format('Y');
         $wholeDate = "$dayOfWeek$comma $day $of1 $monthName $of2 $year";
 
         return $wholeDate;
-    }
-
-    // Getters
-
-    public function getDate()
-    {
-        return $this->date;
     }
 }
