@@ -6,17 +6,14 @@ use \DateTime;
 
 class HumanDate
 {
+    /**
+     * @var null|Datetime
+     */
     protected $date;
 
     public function __construct($dateString = null)
     {
         $this->date = new DateTime($dateString);
-    }
-
-    public function landingDateSpanish($days)
-    {
-        $roundedDate = $this->roundUpDate($this->date, $days);
-        return $this->spanishLongDate($roundedDate, ',', "de", "de");
     }
 
     protected function roundUpDate(DateTime $date, $daysToRound)
@@ -31,17 +28,6 @@ class HumanDate
         }
 
         return $date;
-    }
-
-    protected function spanishLongDate(DateTime $date, $comma, $of1, $of2)
-    {
-        $dayOfWeek = $this->getTheDayOfWeekInSpanish($date);
-        $monthName = $this->getTheMonthInSpanish($date);
-        $day = $date->format('j'); // Days without Zero
-        $year = $date->format('Y');
-        $wholeDate = "$dayOfWeek$comma $day $of1 $monthName $of2 $year";
-
-        return $wholeDate;
     }
 
     protected function getTheMonthInSpanish(DateTime $date)
@@ -154,6 +140,24 @@ class HumanDate
         return $string;
     }
 
+    public function landingDateSpanish()
+    {
+        // $roundedDate = $this->roundUpDate($this->date, $days);
+        return $this->spanishLongDate(',', 'de', 'de');
+    }
+
+    public function spanishLongDate($comma = ',', $of1 = 'de', $of2 = 'de')
+    {
+        $date = $this->date;
+        $dayOfWeek = $this->getTheDayOfWeekInSpanish($date);
+        $monthName = $this->getTheMonthInSpanish($date);
+        $day = $date->format('j'); // Days without Zero
+        $year = $date->format('Y');
+        $wholeDate = "$dayOfWeek$comma $day $of1 $monthName $of2 $year";
+
+        return $wholeDate;
+    }
+
     // Getters
 
     public function getDate()
@@ -161,17 +165,3 @@ class HumanDate
         return $this->date;
     }
 }
-
-if ($argv[1]) {
-    $date = $argv[1];
-} else {
-    $date = null;
-}
-
-
-$humanDate = new HumanDate($date);
-echo $humanDate->landingDateSpanish(3);
-
-// echo $ej ;
-// echo $date->days3Spanish($ej);
-// echo $date->roundUpDate($ej, 2);
