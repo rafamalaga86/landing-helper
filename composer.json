@@ -14,7 +14,7 @@
     "require-dev": {},
     "autoload": {
         "psr-4": {
-            "Rafamalaga86\\": "src"
+            "LandingHelper\\": "src"
         }
     }
 }
