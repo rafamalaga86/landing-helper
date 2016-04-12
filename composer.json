@@ -1,6 +1,7 @@
 {
     "name": "rafamalaga86/landing-helper",
     "description": "These helper classes aid in making landing pages in with php",
+    "license": "MIT",
     "authors": [
         {
             "name": "Rafael García Doblas",
