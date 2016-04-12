@@ -1,0 +1,20 @@
+{
+    "name": "rafamalaga86/landing-helper",
+    "description": "These helper classes aid in making landing pages in with php",
+    "authors": [
+        {
+            "name": "Rafael García Doblas",
+            "email": "rafamalaga86@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "Rafamalaga86\\": "src"
+        }
+    }
+}
