@@ -14,7 +14,7 @@
     },
     "require-dev": {},
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "Rafamalaga86\\LandingHelper\\": "src/"
         }
     }
